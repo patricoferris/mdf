@@ -1,0 +1,4 @@
+(executable
+ (public_name mdf)
+ (name main)
+ (libraries mdf camlpdf cmarkit))
