@@ -1,6 +1,12 @@
 type t = Pdfops.t
 (** A PDF Graphic operator *)
 
+type name = private string
+(** Names of objects *)
+
+val name : string -> name
+(** Create a name *)
+
 val transform : Pdftransform.transform -> t
 (** Apply a transform *)
 
@@ -10,7 +16,10 @@ val begin_txt : t
 val end_txt : t
 (** End a text object *)
 
-val set_text_font : string -> float -> t
+val with_txt : t list -> t list
+(** [with_txt ops] wraps [ops] with [begin_txt] and [end_txt] *)
+
+val set_text_font : name -> float -> t
 (** Sets the text font name and size *)
 
 val set_leading : float -> t
@@ -23,4 +32,8 @@ val txtf : ('a, unit, string, t) format4 -> 'a
 (** The same as {! txt} but with a format string *)
 
 val newline : t
-(** Insert a newline *)
+(** Insert a newline, this will use whatever the {! set_leading}
+    is. *)
+
+val break : float -> t
+(** This will insert a break of some amount of unscaled text space units *)
